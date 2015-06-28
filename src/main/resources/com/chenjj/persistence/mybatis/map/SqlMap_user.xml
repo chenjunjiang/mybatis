@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"  
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- namespace为接口类的全限定名 -->
+<mapper namespace="com.chenjj.persistence.mybatis.dao.UserDao">
+
+    <!-- id （必须配置）
+        id是命名空间中的唯一标识符，可被用来代表这条语句。 
+        一个命名空间（namespace） 对应一个dao接口, 
+        这个id也应该对应dao里面的某个方法（相当于方法的实现），因此id 应该与方法名一致 -->
+	<select id="findUserById" resultMap="userResult">
+		select * from t_user where
+		id = #{id}
+	</select>
+    
+    <select id="findAllUsers" resultMap="userResult">
+		select * from t_user
+	</select>
+	
+	<insert id="addUser">
+		insert into t_user (name,password,age,deleted) values
+		(#{name},#{password},#{age},#{deleted})
+		<selectKey resultType="java.lang.Long" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+</mapper>
